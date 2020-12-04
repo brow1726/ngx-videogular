@@ -91,9 +91,21 @@ export class VgDashDirective implements OnInit, OnChanges, OnDestroy {
       }
 
       this.dash = dashjs.MediaPlayer().create();
-      this.dash.updateSettings({debug: {logLevel: dashjs.Debug.LOG_LEVEL_NONE}});
+      this.dash.updateSettings({
+        debug: {
+          logLevel: dashjs.Debug.LOG_LEVEL_NONE
+        },
+        streaming: {
+          fastSwitchEnabled: true,
+          abr: {
+            initialBitrate: {
+              audio: -1,
+              video: 15000
+            }
+          }
+        }});
       this.dash.initialize(this.ref.nativeElement);
-      this.dash.setAutoPlay(false);
+      this.dash.setAutoPlay(true);
 
       this.dash.on(dashjs.MediaPlayer.events.STREAM_INITIALIZED, () => {
         const audioList = this.dash.getBitrateInfoListFor('audio');

@@ -124,6 +124,11 @@ export class VgHlsDirective implements OnInit, OnChanges, OnDestroy {
         Hls.Events.MANIFEST_PARSED,
         (_event: any, data: { levels: any[] }) => {
           const videoList = [];
+          if(data.levels.length >= 5) {
+            this.hls.config.startLevel = 4;
+          } else {
+            this.hls.config.startLevel = data.levels.length -1;
+          }
 
           videoList.push({
             qualityIndex: 0,
